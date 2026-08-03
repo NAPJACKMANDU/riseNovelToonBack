@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.domain.risenoveltoonback.repository.mapper.JoinLoginMapper">
+
+<!-- 1. 회원가입 (INSERT) -->
+    <insert id="joinUser" parameterType="com.domain.risenoveltoonback.model.joinlogin.JoinFormDto">
+        INSERT INTO users (
+            user_id,
+            password,
+            user_name,
+            email,
+            created_at
+        ) VALUES (
+            #{userId},
+            #{password},
+            #{userName},
+            #{email},
+            NOW()
+        )
+    </insert>
+</mapper>
