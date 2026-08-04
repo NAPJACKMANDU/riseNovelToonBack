@@ -3,19 +3,20 @@
 <mapper namespace="com.domain.risenoveltoonback.repository.mapper.JoinLoginMapper">
 
 <!-- 1. 회원가입 (INSERT) -->
-    <insert id="joinUser" parameterType="com.domain.risenoveltoonback.model.joinlogin.JoinFormDto">
+    <insert id="joinUser">
         INSERT INTO users (
-            user_id,
+            id,
             password,
-            user_name,
-            email,
+            nickname,
+            cp_name,
             created_at
         ) VALUES (
-            #{userId},
+            #{id},
             #{password},
-            #{userName},
-            #{email},
+            #{nickname},
+            #{cpName},
             NOW()
         )
     </insert>
 </mapper>
+

@@ -10,7 +10,6 @@ import lombok.ToString;
 public class JoinFormDto {
     private String id;
     private String password;
-    private String passwordConfirm;
     private String nickname;
     private String cpName;
 }

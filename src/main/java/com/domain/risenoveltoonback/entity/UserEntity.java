@@ -2,14 +2,17 @@ package com.domain.risenoveltoonback.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import com.domain.risenoveltoonback.entity.BaseTimeEntity;
+
+import java.time.LocalDateTime;
+
+import org.springframework.data.annotation.CreatedDate;
 @Entity
 @Table(name = "users")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class UserEntity extends BaseTimeEntity {
+public class UserEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +31,10 @@ public class UserEntity extends BaseTimeEntity {
     @Builder.Default
     @Column(name = "current_balance")
     private Integer currentBalance = 0;
+
+    @CreatedDate
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
 
     // 포인트 잔액 업데이트 메서드
     public void updateBalance(int amount) {
