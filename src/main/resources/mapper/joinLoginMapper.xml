@@ -18,5 +18,19 @@
             NOW()
         )
     </insert>
+
+<!-- 2. 아이디, 닉네임 중복확인 (INSERT) -->
+    <select id="duplicateCheck" parameterType="com.domain.risenoveltoonback.model.joinlogin.DuplicateCheckDto" resultType="int">
+        SELECT COUNT(*)
+        FROM users
+    <choose>
+        <when test="title == 'id'">
+            WHERE id = #{checkData}
+        </when>
+        <when test="title == 'name'">
+            WHERE nickName = #{checkData}
+        </when>
+    </choose>
+    </select>
 </mapper>
 
