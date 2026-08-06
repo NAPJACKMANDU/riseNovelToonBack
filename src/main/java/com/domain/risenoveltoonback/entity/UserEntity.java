@@ -40,4 +40,5 @@ public class UserEntity{
     public void updateBalance(int amount) {
         this.currentBalance += amount;
     }
+
 }

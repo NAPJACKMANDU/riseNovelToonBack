@@ -19,7 +19,16 @@
         )
     </insert>
 
-<!-- 2. 아이디, 닉네임 중복확인 (INSERT) -->
+
+<!-- 2. 회원 가입 아이디, 닉네임 중복 확인 -->
+    <select id="joinduplicateCheck" parameterType="com.domain.risenoveltoonback.model.joinlogin.JoinFormDto" resultType="int">
+        SELECT COUNT(*)
+        FROM users
+            WHERE id = #{id} 
+                or nickName = #{nickname}
+    </select>
+
+<!-- 3. 아이디, 닉네임 중복 확인-->
     <select id="duplicateCheck" parameterType="com.domain.risenoveltoonback.model.joinlogin.DuplicateCheckDto" resultType="int">
         SELECT COUNT(*)
         FROM users
@@ -27,10 +36,16 @@
         <when test="title == 'id'">
             WHERE id = #{checkData}
         </when>
-        <when test="title == 'name'">
+        <when test="title == 'nickname'">
             WHERE nickName = #{checkData}
         </when>
     </choose>
     </select>
-</mapper>
 
+<!-- 4. 로그인 -->
+    <select id="loginUser" parameterType="com.domain.risenoveltoonback.model.joinlogin.LoginFormDto" resultType="int">
+        SELECT COUNT(*)
+            FROM users
+            WHERE id = #{id} and password = #{password}
+    </select>
+</mapper>
