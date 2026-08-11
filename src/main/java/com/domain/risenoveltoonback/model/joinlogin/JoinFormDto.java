@@ -8,7 +8,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class JoinFormDto {
-    private String id;
+    private String userId;
     private String password;
     private String nickname;
     private String cpName;

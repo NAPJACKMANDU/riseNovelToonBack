@@ -5,13 +5,13 @@
 <!-- 1. 회원가입 (INSERT) -->
     <insert id="joinUser">
         INSERT INTO users (
-            id,
+            user_id,
             password,
             nickname,
             cp_name,
             created_at
         ) VALUES (
-            #{id},
+            #{userId},
             #{password},
             #{nickname},
             #{cpName},
@@ -24,7 +24,7 @@
     <select id="joinduplicateCheck" parameterType="com.domain.risenoveltoonback.model.joinlogin.JoinFormDto" resultType="int">
         SELECT COUNT(*)
         FROM users
-            WHERE id = #{id} 
+            WHERE user_id = #{userId} 
                 or nickName = #{nickname}
     </select>
 
@@ -33,8 +33,8 @@
         SELECT COUNT(*)
         FROM users
     <choose>
-        <when test="title == 'id'">
-            WHERE id = #{checkData}
+        <when test="title == 'userId'">
+            WHERE user_id = #{checkData}
         </when>
         <when test="title == 'nickname'">
             WHERE nickName = #{checkData}
@@ -43,9 +43,9 @@
     </select>
 
 <!-- 4. 로그인 -->
-    <select id="loginUser" parameterType="com.domain.risenoveltoonback.model.joinlogin.LoginFormDto" resultType="int">
+    <select id="loginUser" parameterType="string" resultType="int">
         SELECT COUNT(*)
             FROM users
-            WHERE id = #{id} and password = #{password}
+            WHERE user_id = #{userId}
     </select>
 </mapper>

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.domain.risenoveltoonback.model.joinlogin.JoinFormDto;
 import com.domain.risenoveltoonback.model.joinlogin.LoginFormDto;
+import com.domain.risenoveltoonback.jwt.JwtToken;
 import com.domain.risenoveltoonback.model.ApiResponse;
 import com.domain.risenoveltoonback.model.joinlogin.DuplicateCheckDto;
 import com.domain.risenoveltoonback.service.JoinLoginService;
@@ -25,19 +26,21 @@ public class JoinLoginController {
 
     @PostMapping("/join") // 회원가입
     public ResponseEntity<ApiResponse<Void>>  joinController(@RequestBody JoinFormDto signUpForm) {
-
        return joinLoginService.join(signUpForm);
     }
 
     @GetMapping("/duplicateCheck") // 아이디, 닉네임 중복 확인
-    public ResponseEntity<ApiResponse<Void>>  getDuplicateCheck(@ModelAttribute DuplicateCheckDto checkData) {
+    public ResponseEntity<ApiResponse<Void>> getDuplicateCheck(@ModelAttribute DuplicateCheckDto checkData) {
         return joinLoginService.duplicateCheck(checkData);
     }
 
     @PostMapping("/login") // 로그인
-    public ResponseEntity<ApiResponse<Void>>  loginController(@RequestBody LoginFormDto loginForm) {
-
+    public ResponseEntity<ApiResponse<JwtToken>> loginController(@RequestBody LoginFormDto loginForm) {
        return joinLoginService.login(loginForm);
     }
-    
+
+    @PostMapping("/reissue")    
+    public ResponseEntity<ApiResponse<JwtToken>> reissue(@RequestBody JwtToken jwtToken) {        
+        return joinLoginService.reissue(jwtToken.getRefreshToken());    
+    }
 }

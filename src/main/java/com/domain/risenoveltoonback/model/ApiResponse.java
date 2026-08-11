@@ -28,4 +28,8 @@ public class ApiResponse<T> {
     public static <T> ApiResponse<T> success(SuccessCode successCode) {
         return new ApiResponse<>(successCode.getCode(), successCode.getMessage(), null);
     }
+
+    public static <T> ApiResponse<T> success(T data) {
+        return new ApiResponse<>(SuccessCode.SUCCESS.getCode(), SuccessCode.SUCCESS.getMessage(), data);
+    }
 }

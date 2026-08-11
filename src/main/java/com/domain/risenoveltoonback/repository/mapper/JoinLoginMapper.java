@@ -10,5 +10,5 @@ public interface JoinLoginMapper {
     void joinUser(JoinFormDto signUpForm) ;
     int joinduplicateCheck(JoinFormDto signUpForm);
     int duplicateCheck(DuplicateCheckDto duplicateCheckDto);
-    int loginUser(LoginFormDto loginForm);
+    int loginUser(String userId);
 }
