@@ -2,6 +2,7 @@ package com.domain.risenoveltoonback.repository.mapper;
 import org.apache.ibatis.annotations.Mapper;
 import com.domain.risenoveltoonback.model.joinlogin.JoinFormDto;
 import com.domain.risenoveltoonback.model.joinlogin.LoginFormDto;
+import com.domain.risenoveltoonback.model.joinlogin.MyPageDataDto;
 import com.domain.risenoveltoonback.model.joinlogin.DuplicateCheckDto;
 
 @Mapper
@@ -11,4 +12,5 @@ public interface JoinLoginMapper {
     int joinduplicateCheck(JoinFormDto signUpForm);
     int duplicateCheck(DuplicateCheckDto duplicateCheckDto);
     int loginUser(String userId);
+    MyPageDataDto myPageData(String userId);
 }

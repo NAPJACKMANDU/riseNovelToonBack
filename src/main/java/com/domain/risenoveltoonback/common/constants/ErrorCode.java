@@ -16,8 +16,10 @@ public enum ErrorCode {
     AGAIN_CHECK(HttpStatus.BAD_REQUEST, "AGAIN_CHECK", "아이디 또는 비밀번호가 존재하지 않습니다."),
     NOT_HAVE_REFRESH_TOKEN(HttpStatus.BAD_REQUEST, "NOT_HAVE_REFRESH_TOKEN", "Refresh Token 이 유효하지 않습니다."),
     NOT_ACCESS_TOKEN_USER(HttpStatus.BAD_REQUEST, "NOT_ACCESS_TOKEN_USER", "토큰의 유저 정보가 일치하지 않습니다."),
-    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "SERVER_ERROR", "서버 내부 오류가 발생했습니다.");
-
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "SERVER_ERROR", "서버 내부 오류가 발생했습니다."),
+    INFO_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "INFO_ERROR", "인증 정보가 없습니다. 재로그인 바랍니다.");
+ 
+ 
 
     // 2. status 필드 타입을 int -> HttpStatus로 변경
     private final HttpStatus status;

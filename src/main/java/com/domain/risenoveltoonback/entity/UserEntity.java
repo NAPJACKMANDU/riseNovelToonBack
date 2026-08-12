@@ -32,6 +32,9 @@ public class UserEntity{
     @Column(name = "current_balance")
     private Integer currentBalance = 0;
 
+    @Column(nullable = false, length = 10)
+    private String cpName;
+
     @CreatedDate
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;

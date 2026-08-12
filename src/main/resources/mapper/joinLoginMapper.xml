@@ -48,4 +48,12 @@
             FROM users
             WHERE user_id = #{userId}
     </select>
+<!-- 5. 마이페이지 진입 시 -->
+    <select id="myPageData" parameterType="string" resultType="com.domain.risenoveltoonback.model.joinlogin.MyPageDataDto">
+        SELECT  nickname, 
+                current_balance as currentBalance,
+                cp_name as cpName
+            FROM users 
+            WHERE user_id = #{userId}
+    </select>
 </mapper>

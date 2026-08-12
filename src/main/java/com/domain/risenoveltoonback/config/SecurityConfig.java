@@ -21,34 +21,27 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-   private final JwtTokenProvider jwtTokenProvider;
+    private final JwtTokenProvider jwtTokenProvider;
 
     SecurityConfig(JwtTokenProvider jwtTokenProvider) {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-   @Bean
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-     http
-        .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-        .csrf(csrf -> csrf.disable())
-        // ▼▼▼ 1. H2 Console 화면 깨짐 방지 (Frame 허용) ▼▼▼
-        .headers((headers) -> headers                
-        .frameOptions((frame) -> frame.sameOrigin())            
-    ) 
-        .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/", "/api/login", "/api/join", "/api/duplicateCheck").permitAll()
-            // H2 Console 접속 허용                
-            .requestMatchers(PathRequest.toH2Console()).permitAll()
-            .anyRequest().authenticated()
-        )
-        // [PART 5] JWT 필터 등록            
-        // 기존의 UsernamePasswordAuthenticationFilter 앞에 우리가 만든 필터를 끼워 넣음            
-        .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), 
-        UsernamePasswordAuthenticationFilter.class);
+        http
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+            .csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/", "/api/login", "/api/join", "/api/duplicateCheck").permitAll()
+                .anyRequest().authenticated()
+            )
+            // JWT 필터 등록
+            .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), 
+                UsernamePasswordAuthenticationFilter.class);
 
-    return http.build();
-}
+        return http.build();
+    }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
@@ -68,7 +61,6 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
-
     
     // 비밀번호 암호화 빈 등록
     @Bean    
