@@ -1,4 +1,4 @@
-package com.domain.risenoveltoonback.controller.joinLogin;
+package com.domain.risenoveltoonback.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.domain.risenoveltoonback.model.joinlogin.JoinFormDto;
 import com.domain.risenoveltoonback.model.joinlogin.LoginFormDto;
-import com.domain.risenoveltoonback.model.joinlogin.MyPageDataDto;
+import com.domain.risenoveltoonback.model.joinlogin.UserInfoDto;
 import com.domain.risenoveltoonback.common.constants.ErrorCode;
 import com.domain.risenoveltoonback.exception.CustomException;
 import com.domain.risenoveltoonback.jwt.JwtToken;
@@ -42,7 +42,7 @@ public class JoinLoginController {
     }
 
     @PostMapping("/login") // 로그인
-    public ResponseEntity<ApiResponse<MyPageDataDto>> loginController(@RequestBody LoginFormDto loginForm) {
+    public ResponseEntity<ApiResponse<UserInfoDto>> loginController(@RequestBody LoginFormDto loginForm) {
        return joinLoginService.login(loginForm);
     }
 
@@ -51,6 +51,11 @@ public class JoinLoginController {
         return joinLoginService.reissue(jwtToken.getRefreshToken());    
     }
 
+    @GetMapping("path")
+    public ResponseEntity<ApiResponse<Void>> informationChange(@RequestParam String param) {
+        return joinLoginService.informationChange();
+    }
+    
     // @GetMapping("/myPage") // 마이페이지 진입 시
     // public ResponseEntity<ApiResponse<MyPageDataDto>> getMyPageData(Authentication authentication) {
     //     if (authentication == null) {

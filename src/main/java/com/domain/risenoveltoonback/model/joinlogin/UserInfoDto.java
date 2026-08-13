@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class MyPageDataDto {
+public class UserInfoDto {
     private String nickname;
     private String cpName;
     private int currentBalance;

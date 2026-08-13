@@ -15,7 +15,7 @@ import com.domain.risenoveltoonback.jwt.JwtToken;
 import com.domain.risenoveltoonback.jwt.JwtTokenProvider;
 import com.domain.risenoveltoonback.model.joinlogin.JoinFormDto;
 import com.domain.risenoveltoonback.model.joinlogin.LoginFormDto;
-import com.domain.risenoveltoonback.model.joinlogin.MyPageDataDto;
+import com.domain.risenoveltoonback.model.joinlogin.UserInfoDto;
 import com.domain.risenoveltoonback.model.ApiResponse;
 import com.domain.risenoveltoonback.model.joinlogin.DuplicateCheckDto;
 import com.domain.risenoveltoonback.repository.JoinLoginRepository;
@@ -71,41 +71,38 @@ public class JoinLoginService {
         }
     } 
 
-        // 로그인
-        public ResponseEntity<ApiResponse<MyPageDataDto>> login(LoginFormDto loginForm) {
-        
-            // 1. Login ID/PW 를 기반으로 Authentication 객체 생성        
-            UsernamePasswordAuthenticationToken authenticationToken =
-                    new UsernamePasswordAuthenticationToken(loginForm.getUserId(), loginForm.getPassword());
-        
-            Authentication authentication;
-            try {
-                // 2. 실제 검증 (사용자 비밀번호 체크)
-                authentication = authenticationManager.authenticate(authenticationToken);
-            } catch (BadCredentialsException e) {
-                // 비밀번호 불일치 시 커스텀 예외 던지기
-                throw new CustomException(ErrorCode.AGAIN_CHECK);
-            }
-        
-            // 3. 인증 정보를 기반으로 JWT 토큰 생성
+    // 로그인
+    public ResponseEntity<ApiResponse<UserInfoDto>> login(LoginFormDto loginForm) {
+        try {
+            // 1. 인증 시도
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginForm.getUserId(), loginForm.getPassword())
+            );
+
+            // 2. JWT 토큰 생성 및 RefreshToken 저장
             JwtToken jwtToken = jwtTokenProvider.createToken(authentication);
-        
-            RefreshTokenEntity refreshToken = RefreshTokenEntity.builder()
-                    .userId(authentication.getName())
-                    .refreshToken(jwtToken.getRefreshToken())
-                    .build();
-        
-            refreshTokenRepository.save(refreshToken);
-        
-            if (joinLoginMapper.loginUser(loginForm.getUserId()) > 0) {
-                MyPageDataDto myPageDataDto = joinLoginMapper.myPageData(loginForm.getUserId());
-                myPageDataDto.setAccessToken(jwtToken.getAccessToken());
-                myPageDataDto.setRefreshToken(jwtToken.getRefreshToken());
-                return ResponseEntity.ok(ApiResponse.success(myPageDataDto));
-            } else {
+            refreshTokenRepository.save(
+                    RefreshTokenEntity.builder()
+                            .userId(authentication.getName())
+                            .refreshToken(jwtToken.getRefreshToken())
+                            .build()
+            );
+
+            // 3. 사용자 정보 조회
+            if (joinLoginMapper.loginUser(loginForm.getUserId()) <= 0) {
                 throw new CustomException(ErrorCode.AGAIN_CHECK);
             }
+
+            UserInfoDto userInfoDto = joinLoginMapper.myPageData(loginForm.getUserId());
+            userInfoDto.setAccessToken(jwtToken.getAccessToken());
+            userInfoDto.setRefreshToken(jwtToken.getRefreshToken());
+
+            return ResponseEntity.ok(ApiResponse.success(userInfoDto));
+
+        } catch (BadCredentialsException e) {
+            throw new CustomException(ErrorCode.AGAIN_CHECK);
         }
+    }
 
 
         // 새로운 토큰 받기
