@@ -21,7 +21,7 @@
 
 
 <!-- 2. 회원 가입 아이디, 닉네임 중복 확인 -->
-    <select id="joinduplicateCheck" parameterType="com.domain.risenoveltoonback.model.joinlogin.JoinFormDto" resultType="int">
+    <select id="joinduplicateCheck" parameterType="com.domain.risenoveltoonback.model.joinLogin.JoinFormDto" resultType="int">
         SELECT COUNT(*)
         FROM users
             WHERE user_id = #{userId} 
@@ -29,7 +29,7 @@
     </select>
 
 <!-- 3. 아이디, 닉네임 중복 확인-->
-    <select id="duplicateCheck" parameterType="com.domain.risenoveltoonback.model.joinlogin.DuplicateCheckDto" resultType="int">
+    <select id="duplicateCheck" parameterType="com.domain.risenoveltoonback.model.joinLogin.DuplicateCheckDto" resultType="int">
         SELECT COUNT(*)
         FROM users
     <choose>
@@ -48,12 +48,36 @@
             FROM users
             WHERE user_id = #{userId}
     </select>
-<!-- 5. 마이페이지 진입 시 -->
-    <select id="myPageData" parameterType="string" resultType="com.domain.risenoveltoonback.model.joinlogin.UserInfoDto">
+
+<!-- 5. 유저 데이터 로컬 스토리지에 담을 것 -->
+    <select id="userInfo" parameterType="string" resultType="com.domain.risenoveltoonback.model.joinLogin.UserInfoDto">
         SELECT  nickname, 
                 current_balance as currentBalance,
                 cp_name as cpName
             FROM users 
             WHERE user_id = #{userId}
     </select>
+
+<!-- 6. 마이페이지 진입 시 [수정해야 함] -->
+    <select id="myPageData" parameterType="string" resultType="com.domain.risenoveltoonback.model.joinLogin.MyPageDataDto">
+        SELECT  nickname, 
+                current_balance as currentBalance,
+                cp_name as cpName
+            FROM users 
+            WHERE user_id = #{userId}
+    </select>
+
+<!-- 7. 정보 변경 [cpName, nickName] -->
+    <update id="informationChange" parameterType="com.domain.risenoveltoonback.model.joinLogin.InformationChangeDto">
+        UPDATE users
+        <set>
+            <if test="cpName != null and cpName != ''">
+                cp_name = #{cpName},
+            </if>
+            <if test="nickname != null and nickname != ''">
+                nickname = #{nickname}
+            </if>
+        </set>
+        WHERE user_id = #{userId}
+    </update>
 </mapper>

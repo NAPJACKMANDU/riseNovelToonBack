@@ -1,4 +1,4 @@
-package com.domain.risenoveltoonback.model.joinlogin;
+package com.domain.risenoveltoonback.model.joinLogin;
 
 import lombok.Getter;
 import lombok.Setter;

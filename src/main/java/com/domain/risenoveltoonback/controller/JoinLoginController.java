@@ -8,14 +8,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.domain.risenoveltoonback.model.joinlogin.JoinFormDto;
-import com.domain.risenoveltoonback.model.joinlogin.LoginFormDto;
-import com.domain.risenoveltoonback.model.joinlogin.UserInfoDto;
 import com.domain.risenoveltoonback.common.constants.ErrorCode;
 import com.domain.risenoveltoonback.exception.CustomException;
 import com.domain.risenoveltoonback.jwt.JwtToken;
 import com.domain.risenoveltoonback.model.ApiResponse;
-import com.domain.risenoveltoonback.model.joinlogin.DuplicateCheckDto;
+import com.domain.risenoveltoonback.model.joinLogin.DuplicateCheckDto;
+import com.domain.risenoveltoonback.model.joinLogin.InformationChangeDto;
+import com.domain.risenoveltoonback.model.joinLogin.JoinFormDto;
+import com.domain.risenoveltoonback.model.joinLogin.LoginFormDto;
+import com.domain.risenoveltoonback.model.joinLogin.MyPageDataDto;
+import com.domain.risenoveltoonback.model.joinLogin.UserInfoDto;
 import com.domain.risenoveltoonback.service.JoinLoginService;
 
 import lombok.RequiredArgsConstructor;
@@ -51,18 +53,25 @@ public class JoinLoginController {
         return joinLoginService.reissue(jwtToken.getRefreshToken());    
     }
 
-    @GetMapping("path")
-    public ResponseEntity<ApiResponse<Void>> informationChange(@RequestParam String param) {
-        return joinLoginService.informationChange();
+    @PostMapping("/myPage") // 마이페이지 진입 시
+    public ResponseEntity<ApiResponse<MyPageDataDto>> getMyPageData(Authentication authentication) {
+        if (authentication == null) {
+            throw new CustomException(ErrorCode.INFO_ERROR);
+        }
+        String userId = authentication.getName();
+        return joinLoginService.myPageData(userId);
     }
-    
-    // @GetMapping("/myPage") // 마이페이지 진입 시
-    // public ResponseEntity<ApiResponse<MyPageDataDto>> getMyPageData(Authentication authentication) {
-    //     if (authentication == null) {
-    //         throw new CustomException(ErrorCode.INFO_ERROR);
-    //     }
-    //     String userId = authentication.getName();
-    //     return joinLoginService.myPageData(userId);
-    // }
-    
+
+    @PostMapping("/informationChange") // Nickname, cpName 정보 변경
+    public ResponseEntity<ApiResponse<Void>> informationChange(@RequestBody InformationChangeDto informationChangeDto, Authentication authentication) {
+         if (authentication == null) {
+            throw new CustomException(ErrorCode.INFO_ERROR);
+        }
+
+        String userId = authentication.getName();
+        informationChangeDto.setUserId(userId);
+        
+        return joinLoginService.informationChange(informationChangeDto);
+    }
 }
+       

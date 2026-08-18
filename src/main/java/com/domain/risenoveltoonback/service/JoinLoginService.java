@@ -13,11 +13,13 @@ import com.domain.risenoveltoonback.entity.RefreshTokenEntity;
 import com.domain.risenoveltoonback.exception.CustomException;
 import com.domain.risenoveltoonback.jwt.JwtToken;
 import com.domain.risenoveltoonback.jwt.JwtTokenProvider;
-import com.domain.risenoveltoonback.model.joinlogin.JoinFormDto;
-import com.domain.risenoveltoonback.model.joinlogin.LoginFormDto;
-import com.domain.risenoveltoonback.model.joinlogin.UserInfoDto;
 import com.domain.risenoveltoonback.model.ApiResponse;
-import com.domain.risenoveltoonback.model.joinlogin.DuplicateCheckDto;
+import com.domain.risenoveltoonback.model.joinLogin.DuplicateCheckDto;
+import com.domain.risenoveltoonback.model.joinLogin.InformationChangeDto;
+import com.domain.risenoveltoonback.model.joinLogin.JoinFormDto;
+import com.domain.risenoveltoonback.model.joinLogin.LoginFormDto;
+import com.domain.risenoveltoonback.model.joinLogin.MyPageDataDto;
+import com.domain.risenoveltoonback.model.joinLogin.UserInfoDto;
 import com.domain.risenoveltoonback.repository.JoinLoginRepository;
 import com.domain.risenoveltoonback.repository.RefreshTokenRepository;
 import com.domain.risenoveltoonback.repository.mapper.JoinLoginMapper;
@@ -93,7 +95,7 @@ public class JoinLoginService {
                 throw new CustomException(ErrorCode.AGAIN_CHECK);
             }
 
-            UserInfoDto userInfoDto = joinLoginMapper.myPageData(loginForm.getUserId());
+            UserInfoDto userInfoDto = joinLoginMapper.userInfo(loginForm.getUserId());
             userInfoDto.setAccessToken(jwtToken.getAccessToken());
             userInfoDto.setRefreshToken(jwtToken.getRefreshToken());
 
@@ -133,8 +135,26 @@ public class JoinLoginService {
         return ResponseEntity.ok(ApiResponse.success(newJwtToken));
     }
 
-    // public ResponseEntity<ApiResponse<MyPageDataDto>> myPageData(String userId){
-    //     MyPageDataDto myPageDataDto = joinLoginMapper.myPageData(userId);
-    //      return ResponseEntity.ok(ApiResponse.success(myPageDataDto));
-    // }
+    // 마이페이지 접속 API
+    public ResponseEntity<ApiResponse<MyPageDataDto>> myPageData(String userId){
+        MyPageDataDto myPageDataDto = joinLoginMapper.myPageData(userId);
+         return ResponseEntity.ok(ApiResponse.success(myPageDataDto));
+    }
+
+    // CpName, NickName 데이터 변경 
+    public ResponseEntity<ApiResponse<Void>> informationChange(InformationChangeDto informationChangeDto) {
+
+        DuplicateCheckDto duplicateCheckDto = new DuplicateCheckDto();
+        duplicateCheckDto.setTitle("nickname");
+        duplicateCheckDto.setCheckData(informationChangeDto.getNickname());
+
+        if (joinLoginMapper.duplicateCheck(duplicateCheckDto) != 0) {
+            throw new CustomException(ErrorCode.DUPLICATE_CHECK);
+        }
+
+        joinLoginMapper.informationChange(informationChangeDto);
+        return ResponseEntity.ok(ApiResponse.success(SuccessCode.SUCCESS_CHANGE_INFORMATION));
+    }
+
+
 }
