@@ -106,34 +106,33 @@ public class JoinLoginService {
         }
     }
 
-
         // 새로운 토큰 받기
-        public ResponseEntity<ApiResponse<JwtToken>> reissue(String refreshToken) {
-            // 1. Refresh Token 검증
-            if (!jwtTokenProvider.validateToken(refreshToken)) {
-               throw new CustomException(ErrorCode.AGAIN_CHECK);
-            }
-        
-            // 2. 토큰에서 User ID 가져오기
-            Authentication authentication = jwtTokenProvider.getAuthentication(refreshToken);
-        
-            // 3. 저장소에서 User ID 를 기반으로 Refresh Token 값 가져옴
-            RefreshTokenEntity dbRefreshToken = refreshTokenRepository.findByUserId(authentication.getName())
-                    .orElseThrow(() -> new RuntimeException("로그아웃 된 사용자입니다."));
-        
-            // 4. 토큰 일치 여부 검사 (핵심!)
-            if (!dbRefreshToken.getRefreshToken().equals(refreshToken)) {
-                throw new CustomException(ErrorCode.AGAIN_CHECK);
-            }
-        
-            // 5. 새로운 토큰 생성
-            JwtToken newJwtToken = jwtTokenProvider.createToken(authentication);
-        
-            // 6. 저장소 정보 업데이트 (Rotation)
-            dbRefreshToken.updateRefreshToken(newJwtToken.getRefreshToken());
-        
-        return ResponseEntity.ok(ApiResponse.success(newJwtToken));
-    }
+    public ResponseEntity<ApiResponse<JwtToken>> reissue(String refreshToken) {
+        // 1. Refresh Token 검증
+        if (!jwtTokenProvider.validateToken(refreshToken)) {
+           throw new CustomException(ErrorCode.AGAIN_CHECK);
+        }
+    
+        // 2. 토큰에서 User ID 가져오기
+        Authentication authentication = jwtTokenProvider.getAuthentication(refreshToken);
+    
+        // 3. 저장소에서 User ID 를 기반으로 Refresh Token 값 가져옴
+        RefreshTokenEntity dbRefreshToken = refreshTokenRepository.findByUserId(authentication.getName())
+                .orElseThrow(() -> new RuntimeException("로그아웃 된 사용자입니다."));
+    
+        // 4. 토큰 일치 여부 검사 (핵심!)
+        if (!dbRefreshToken.getRefreshToken().equals(refreshToken)) {
+            throw new CustomException(ErrorCode.AGAIN_CHECK);
+        }
+    
+        // 5. 새로운 토큰 생성
+        JwtToken newJwtToken = jwtTokenProvider.createToken(authentication);
+    
+        // 6. 저장소 정보 업데이트 (Rotation)
+        dbRefreshToken.updateRefreshToken(newJwtToken.getRefreshToken());
+    
+    return ResponseEntity.ok(ApiResponse.success(newJwtToken));
+}
 
     // 마이페이지 접속 API
     public ResponseEntity<ApiResponse<MyPageDataDto>> myPageData(String userId){

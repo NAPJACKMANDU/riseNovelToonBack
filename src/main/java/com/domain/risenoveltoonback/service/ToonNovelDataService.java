@@ -21,6 +21,7 @@ public class ToonNovelDataService {
 
     return entities.stream()
             .map(entity -> ToonNovelDto.builder()
+                    .contentId(entity.getContentId())
                     .title(entity.getTitle())
                     .description(entity.getDescription())
                     .author(entity.getAuthor())

@@ -2,11 +2,9 @@ package com.domain.risenoveltoonback.controller;
 
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.domain.risenoveltoonback.model.ApiResponse;
 import com.domain.risenoveltoonback.model.toonNovel.ToonNovelDto;
 import com.domain.risenoveltoonback.service.ToonNovelDataService;
 
