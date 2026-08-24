@@ -15,7 +15,7 @@
             #{password},
             #{nickname},
             #{cpName},
-            NOW()
+            
         )
     </insert>
 

@@ -16,6 +16,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ToonNovelDto {
+private String userId;
 private Long contentId;
 private String title;
 private String description;
