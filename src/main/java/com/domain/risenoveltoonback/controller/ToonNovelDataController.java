@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,8 +29,8 @@ public class ToonNovelDataController {
         return toonNovelDataService.mainToonNovel();
     }
 
-    @GetMapping("/viewCount")
-    public Optional<ToonNovelDto> viewCount(@RequestBody Long contentId, Authentication authentication) {
+    @GetMapping("/viewCount/{contentId}")
+    public Optional<ToonNovelDto> viewCount(@PathVariable("contentId") Long contentId, Authentication authentication) {
 
         ToonNovelDto toonNovelDto = new ToonNovelDto();
         

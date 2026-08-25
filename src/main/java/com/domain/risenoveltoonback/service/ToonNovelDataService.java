@@ -52,10 +52,11 @@ public class ToonNovelDataService {
 
             if (!alreadyViewed) {
                 // 3. 조회수 증가
-                toonNovelDataMapper.updateView(toonNovelDto);
+                toonNovelDataMapper.updateView(userId, contentId);
+                toonNovelDataMapper.upCountView(contentId);
             }
 
             // 4. 콘텐츠 반환
-            return toonNovelDataRepository.findAllByContentId(contentId);
+            return toonNovelDataMapper.findAllToonNovel(contentId);
         }
 }

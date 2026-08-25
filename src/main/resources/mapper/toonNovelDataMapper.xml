@@ -3,8 +3,8 @@
 <mapper namespace="com.domain.risenoveltoonback.repository.mapper.ToonNovelDataMapper">
 
 <!-- 1. view_log 테이블에 유저가 있는지 확인-->
-    <select id="existsContent" parameterType="map" resultType="boolean">
-        SELECT CASE WHEN COUNT(*) &gt; 0 THEN TRUE ELSE FALSE END
+    <select id="existsContent" parameterType="map" resultType="int">
+        SELECT CASE WHEN COUNT(*) &gt; 0 THEN 1 ELSE 0 END
         FROM view_log 
         WHERE user_id = #{userId} 
           AND content_id = #{contentId}
@@ -12,16 +12,40 @@
 
 
 <!-- 2. 유저가 없을 시 데이터 집어넣기 -->
-    <insert id="updateView" parameterType="com.domain.risenoveltoonback.model.toonNovel.ToonNovelDto">
+    <insert id="updateView" parameterType="map">
         INSERT into view_log (
             user_id,
             content_id,
             viewed_at
         ) VALUES (
-            #{user_id},
-            #{content_id},
+            #{userId},
+            #{contentId},
             NOW()
         )
     </insert>
 
+<!-- 3. 조회수 카운트 1 증가 -->
+    <update id="upCountView" parameterType="Long">
+        UPDATE contents
+        SET views = views + 1
+        WHERE content_id = #{contentId}
+    </update>
+
+<!-- 4. 웹툰 데이터 가져오기-->
+    <select id="findAllToonNovel" parameterType="map" resultType="com.domain.risenoveltoonback.model.toonNovel.ToonNovelDto">
+        SELECT 
+        content_id as contentId,
+        title as title,
+        description as description,
+        author as author,
+        type as type,
+        toon_url as toonUrl,
+        created_at as createdAt,
+        cp_name as cpName,
+        right_member as rightMember,
+        views as views,
+        left_member as leftMember
+        FROM contents
+        WHERE content_id = #{contentId}
+    </select>
 </mapper>
