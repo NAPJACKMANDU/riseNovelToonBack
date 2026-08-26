@@ -1,4 +1,6 @@
 package com.domain.risenoveltoonback.repository.mapper;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.domain.risenoveltoonback.model.joinLogin.DuplicateCheckDto;
@@ -16,5 +18,5 @@ public interface JoinLoginMapper {
     int loginUser(String userId);
     UserInfoDto userInfo(String userId);
     int informationChange(InformationChangeDto informationChangeDto);
-    MyPageDataDto myPageData(String userId);
+    List<MyPageDataDto> myPageData(String userId);
 }

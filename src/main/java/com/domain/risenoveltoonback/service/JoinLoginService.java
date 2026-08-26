@@ -1,5 +1,7 @@
 package com.domain.risenoveltoonback.service;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -135,8 +137,8 @@ public class JoinLoginService {
 }
 
     // 마이페이지 접속 API
-    public ResponseEntity<ApiResponse<MyPageDataDto>> myPageData(String userId){
-        MyPageDataDto myPageDataDto = joinLoginMapper.myPageData(userId);
+    public ResponseEntity<ApiResponse<List<MyPageDataDto>>> myPageData(String userId){
+        List<MyPageDataDto>   myPageDataDto = joinLoginMapper.myPageData(userId);
          return ResponseEntity.ok(ApiResponse.success(myPageDataDto));
     }
 

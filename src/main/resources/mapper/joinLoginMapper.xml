@@ -60,11 +60,20 @@
 
 <!-- 6. 마이페이지 진입 시 [수정해야 함] -->
     <select id="myPageData" parameterType="string" resultType="com.domain.risenoveltoonback.model.joinLogin.MyPageDataDto">
-        SELECT  nickname, 
-                current_balance as currentBalance,
-                cp_name as cpName
-            FROM users 
-            WHERE user_id = #{userId}
+        SELECT 
+        u.user_id       AS userId,
+        u.nickname      AS nickname,
+        u.current_balance AS currentBalance,
+        c.cp_name       AS cpName,
+        p.content_id    AS contentId,
+        c.title         AS title,
+        c.author        AS author,
+        c.type          AS type,
+        c.toon_url      AS toonUrl
+    FROM purchases p
+    JOIN users u ON p.user_id = u.user_id
+    JOIN contents c ON p.content_id = c.content_id
+    WHERE u.user_id = #{userId}
     </select>
 
 <!-- 7. 정보 변경 [cpName, nickName] -->

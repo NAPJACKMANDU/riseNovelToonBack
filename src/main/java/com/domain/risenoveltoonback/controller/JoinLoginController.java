@@ -1,5 +1,7 @@
 package com.domain.risenoveltoonback.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,7 +54,7 @@ public class JoinLoginController {
     }
 
     @PostMapping("/myPage") // 마이페이지 진입 시
-    public ResponseEntity<ApiResponse<MyPageDataDto>> getMyPageData(Authentication authentication) {
+    public ResponseEntity<ApiResponse<List<MyPageDataDto>>> getMyPageData(Authentication authentication) {
         if (authentication == null) {
             throw new CustomException(ErrorCode.INFO_ERROR);
         }

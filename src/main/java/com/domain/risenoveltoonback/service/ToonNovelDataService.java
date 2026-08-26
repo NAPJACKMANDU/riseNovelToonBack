@@ -19,7 +19,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ToonNovelDataService {
     
-        private final RefreshTokenRepository refreshTokenRepository;
         private final ToonNovelDataRepository toonNovelDataRepository;
         private final ToonNovelDataMapper toonNovelDataMapper;
 
