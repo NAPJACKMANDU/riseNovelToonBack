@@ -9,7 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.domain.risenoveltoonback.entity.ContentsEntity;
 import com.domain.risenoveltoonback.model.ApiResponse;
+import com.domain.risenoveltoonback.model.toonNovel.SetLoveToonNovelDto;
 import com.domain.risenoveltoonback.model.toonNovel.ToonNovelDto;
+import com.domain.risenoveltoonback.model.toonNovel.ToonNovelEpisodeDto;
 import com.domain.risenoveltoonback.repository.ToonNovelDataRepository;
 import com.domain.risenoveltoonback.repository.mapper.ToonNovelDataMapper;
 
@@ -58,4 +60,22 @@ public class ToonNovelDataService {
             // 4. 콘텐츠 반환
             return toonNovelDataMapper.findAllToonNovel(contentId);
         }
+
+    public void setLoveState(String userId, SetLoveToonNovelDto setLovesItem) {
+        
+        if(setLovesItem.isLoveOn()) {
+                System.err.println("setLovesItem.isLoveOn() : " + setLovesItem.isLoveOn());
+                toonNovelDataMapper.setLoveState(userId, setLovesItem.getContentId());
+        } else {
+                toonNovelDataMapper.deleteLoveState(userId, setLovesItem.getContentId());
+        }
+    }
+
+    public ResponseEntity<ApiResponse<List<ToonNovelEpisodeDto>>> novelToonEpisodesData(Long contentId) {
+
+        List<ToonNovelEpisodeDto> toonNovelEpisodeDtos = toonNovelDataMapper.novelToonEpisodesData(contentId);
+
+        return ResponseEntity.ok(ApiResponse.success(toonNovelEpisodeDtos));
+        
+    }
 }

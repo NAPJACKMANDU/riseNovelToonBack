@@ -23,7 +23,7 @@
             NOW()
         )
     </insert>
-
+ 
 <!-- 3. 조회수 카운트 1 증가 -->
     <update id="upCountView" parameterType="Long">
         UPDATE contents
@@ -34,18 +34,44 @@
 <!-- 4. 웹툰 데이터 가져오기-->
     <select id="findAllToonNovel" parameterType="map" resultType="com.domain.risenoveltoonback.model.toonNovel.ToonNovelDto">
         SELECT 
-        content_id as contentId,
-        title as title,
-        description as description,
-        author as author,
-        type as type,
-        toon_url as toonUrl,
-        created_at as createdAt,
-        cp_name as cpName,
-        right_member as rightMember,
-        views as views,
-        left_member as leftMember
-        FROM contents
+            content_id as contentId,
+            title as title,
+            description as description,
+            author as author,
+            type as type,
+            toon_url as toonUrl,
+            created_at as createdAt,
+            cp_name as cpName,
+            right_member as rightMember,
+            views as views,
+            left_member as leftMember
+            FROM contents
         WHERE content_id = #{contentId}
     </select>
+
+<!-- 5. 좋아요 누른 웹툰 정보 저장하기 -->   
+    <insert id="setLoveState" parameterType="map">
+        INSERT into favorites (
+            user_id,
+            content_id
+        ) VALUES (
+            #{userId},
+            #{contentId}
+        )
+    </insert>
+
+<!-- 5. 좋아요 취소 웹툰 정보 지우기 -->      
+    <delete id="deleteLoveState" parameterType="map">
+        DELETE 
+        FROM favorites
+        WHERE user_id = #{userId} 
+          and content_id = #{contentId}
+    </delete>
+
+<!-- 6. 웹툰 에피소드 -->
+    <select id="novelToonEpisodesData" parameterType="Long" resultType="com.domain.risenoveltoonback.model.toonNovel.ToonNovelEpisodeDto">
+        SELECT *
+        FROM EPISODES
+        WHERE content_id = ${contentId}
+    </select>    
 </mapper>

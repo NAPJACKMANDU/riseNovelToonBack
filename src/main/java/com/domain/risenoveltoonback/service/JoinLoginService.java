@@ -138,8 +138,8 @@ public class JoinLoginService {
 
     // 마이페이지 접속 API
     public ResponseEntity<ApiResponse<List<MyPageDataDto>>> myPageData(String userId){
-        List<MyPageDataDto>   myPageDataDto = joinLoginMapper.myPageData(userId);
-         return ResponseEntity.ok(ApiResponse.success(myPageDataDto));
+            List<MyPageDataDto> myPageDataDto = joinLoginMapper.myPageData(userId);
+        return ResponseEntity.ok(ApiResponse.success(myPageDataDto));
     }
 
     // CpName, NickName 데이터 변경 
