@@ -54,6 +54,7 @@ public class ToonNovelDataController {
         return toonNovelDataService.viewCount(toonNovelDto);
     }
 
+    // 찜 저장 혹은 지우기
     @PostMapping("/setLoveState")
     public void setLoveState(@RequestBody SetLoveToonNovelDto setLovesItem,  Authentication authentication) {
         
@@ -65,9 +66,31 @@ public class ToonNovelDataController {
         toonNovelDataService.setLoveState(userId, setLovesItem);
     }
 
+
+    // 웹툰 소설별 각 에피소드
     @GetMapping("/novelToonEpisodesData")
-    public ResponseEntity<ApiResponse<List<ToonNovelEpisodeDto>>> novelToonEpisodesData(@RequestParam Long contentId) {
-        return toonNovelDataService.novelToonEpisodesData(contentId);
+    public ResponseEntity<ApiResponse<List<ToonNovelEpisodeDto>>> novelToonEpisodesData(@RequestParam int contentId, Authentication authentication) {
+        
+        if (authentication == null) {
+            throw new CustomException(ErrorCode.INFO_ERROR);
+        }
+
+        String userId = authentication.getName();
+        
+        return toonNovelDataService.novelToonEpisodesData(contentId, userId);
+    }
+
+    // 찜 데이터 목록
+    @PostMapping("/loveContents")
+    public ResponseEntity<ApiResponse<List<ToonNovelDto>>> loveContents(Authentication authentication) {
+        
+        if (authentication == null) {
+            throw new CustomException(ErrorCode.INFO_ERROR);
+        }
+
+        String userId = authentication.getName();
+
+        return toonNovelDataService.loveContents(userId);
     }
     
     

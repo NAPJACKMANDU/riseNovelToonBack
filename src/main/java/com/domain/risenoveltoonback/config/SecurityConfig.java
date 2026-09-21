@@ -35,7 +35,7 @@ public class SecurityConfig {
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         )
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/", "/api/login", "/api/join", "/api/duplicateCheck", "/api/reissue", "/api/mainToonNovel", "/api/novelToonEpisodesData").permitAll()
+                .requestMatchers("/", "/api/login", "/api/join", "/api/duplicateCheck", "/api/reissue", "/api/mainToonNovel").permitAll()
                 .anyRequest().authenticated()
             )
             // JWT 필터 등록

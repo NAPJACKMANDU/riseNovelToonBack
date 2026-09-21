@@ -24,6 +24,7 @@ public class ToonNovelDataService {
         private final ToonNovelDataRepository toonNovelDataRepository;
         private final ToonNovelDataMapper toonNovelDataMapper;
 
+    // 전체 웹툰 소설 데이터 불러오기
     public List<ToonNovelDto> mainToonNovel() {
             List<ContentsEntity> entities = toonNovelDataRepository.findAll();
 
@@ -31,7 +32,7 @@ public class ToonNovelDataService {
             .map(entity -> ToonNovelDto.builder()
                     .contentId(entity.getContentId())
                     .title(entity.getTitle())
-                    .description(entity.getDescription())
+                    .description(entity.getDescription())   
                     .author(entity.getAuthor())
                     .type(entity.getType())
                     .toonUrl(entity.getToonUrl())
@@ -61,6 +62,7 @@ public class ToonNovelDataService {
             return toonNovelDataMapper.findAllToonNovel(contentId);
         }
 
+    // 찜 업데이트, 삭제 관련
     public void setLoveState(String userId, SetLoveToonNovelDto setLovesItem) {
         
         if(setLovesItem.isLoveOn()) {
@@ -71,11 +73,20 @@ public class ToonNovelDataService {
         }
     }
 
-    public ResponseEntity<ApiResponse<List<ToonNovelEpisodeDto>>> novelToonEpisodesData(Long contentId) {
+    // 에피소드
+    public ResponseEntity<ApiResponse<List<ToonNovelEpisodeDto>>> novelToonEpisodesData(int contentId, String userId) {
 
-        List<ToonNovelEpisodeDto> toonNovelEpisodeDtos = toonNovelDataMapper.novelToonEpisodesData(contentId);
-
+        List<ToonNovelEpisodeDto> toonNovelEpisodeDtos = toonNovelDataMapper.novelToonEpisodesData(contentId, userId);
+        
         return ResponseEntity.ok(ApiResponse.success(toonNovelEpisodeDtos));
+        
+    }
+
+    // 찜 목록 관련
+    public ResponseEntity<ApiResponse<List<ToonNovelDto>>> loveContents(String userId) { 
+        
+        List<ToonNovelDto> toonNovelDto = toonNovelDataMapper.loveContents(userId);
+        return ResponseEntity.ok(ApiResponse.success(toonNovelDto));
         
     }
 }

@@ -69,9 +69,20 @@
     </delete>
 
 <!-- 6. 웹툰 에피소드 -->
-    <select id="novelToonEpisodesData" parameterType="Long" resultType="com.domain.risenoveltoonback.model.toonNovel.ToonNovelEpisodeDto">
-        SELECT *
-        FROM EPISODES
-        WHERE content_id = ${contentId}
+    <select id="novelToonEpisodesData" parameterType="map" resultType="com.domain.risenoveltoonback.model.toonNovel.ToonNovelEpisodeDto">
+        SELECT 
+            e.episode_id AS episodeId,
+            e.content_id AS contentId,
+            e.episode_number AS episodeNumber,
+            e.sub_title AS subTitle,
+            e.content_path AS contentPath,
+            e.price AS price,
+            e.created_at AS createdAt,
+            CASE WHEN f.user_id IS NOT NULL THEN true ELSE false END AS isFavorite
+        FROM episodes e
+        LEFT JOIN favorites f 
+            ON e.content_id = f.content_id 
+            AND f.user_id = #{userId}
+        WHERE e.content_id = #{contentId}
     </select>    
 </mapper>
