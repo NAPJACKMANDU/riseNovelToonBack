@@ -84,5 +84,25 @@
             ON e.content_id = f.content_id 
             AND f.user_id = #{userId}
         WHERE e.content_id = #{contentId}
-    </select>    
+    </select>
+
+  <!-- 7. 좋아요 웹툰 정보 지우기 -->     
+    <select id="loveContents" parameterType="String" resultType="com.domain.risenoveltoonback.model.toonNovel.ToonNovelDto">
+    SELECT 
+        c.content_id AS contentId,
+        c.title AS title,
+        c.description AS description,
+        c.author AS author,
+        c.type AS type,
+        c.toon_url AS toonUrl,
+        c.created_at AS createdAt,
+        c.cp_name AS cpName,
+        c.right_member AS rightMember,
+        c.views AS views,
+        c.left_member AS leftMember
+    FROM favorites f
+    JOIN contents c
+        ON f.content_id = c.content_id
+    WHERE f.user_id = #{userId}
+    </select>
 </mapper>

@@ -66,7 +66,6 @@ public class ToonNovelDataService {
     public void setLoveState(String userId, SetLoveToonNovelDto setLovesItem) {
         
         if(setLovesItem.isLoveOn()) {
-                System.err.println("setLovesItem.isLoveOn() : " + setLovesItem.isLoveOn());
                 toonNovelDataMapper.setLoveState(userId, setLovesItem.getContentId());
         } else {
                 toonNovelDataMapper.deleteLoveState(userId, setLovesItem.getContentId());
