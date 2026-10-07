@@ -86,6 +86,13 @@ public class ToonNovelDataService {
         
         List<ToonNovelDto> toonNovelDto = toonNovelDataMapper.loveContents(userId);
         return ResponseEntity.ok(ApiResponse.success(toonNovelDto));
-        
+    
+    }
+
+    // 하트 실시간 조회
+    public boolean fetchEpisodes(int contentId, String userId) {
+
+        Boolean statBoolean = toonNovelDataMapper.fetchEpisodes(contentId, userId);
+        return statBoolean;
     }
 }

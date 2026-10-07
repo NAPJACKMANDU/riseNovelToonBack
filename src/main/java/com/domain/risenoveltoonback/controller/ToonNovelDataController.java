@@ -92,6 +92,15 @@ public class ToonNovelDataController {
 
         return toonNovelDataService.loveContents(userId);
     }
-    
-    
+
+    @PostMapping("/fetchEpisodes")
+    public boolean fetchEpisodes(@RequestParam int contentId, Authentication authentication) {
+        if (authentication == null) {
+            throw new CustomException(ErrorCode.INFO_ERROR);
+        }
+
+        String userId = authentication.getName();
+
+        return toonNovelDataService.fetchEpisodes(contentId, userId);
+    }
 }

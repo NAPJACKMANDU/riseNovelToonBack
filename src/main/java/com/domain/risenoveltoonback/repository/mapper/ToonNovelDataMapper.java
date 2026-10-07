@@ -20,4 +20,5 @@ public interface ToonNovelDataMapper {
     void deleteLoveState(@Param("userId") String userId, @Param("contentId") Long contentId);
     List<ToonNovelEpisodeDto> novelToonEpisodesData(@Param("contentId") int contentId, @Param("userId") String userId);
     List <ToonNovelDto> loveContents(String userId);
+    Boolean fetchEpisodes(@Param("contentId") int contentId, @Param("userId") String userId);
 }
