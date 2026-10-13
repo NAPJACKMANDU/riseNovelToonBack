@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.domain.risenoveltoonback.entity.ContentsEntity;
 import com.domain.risenoveltoonback.model.ApiResponse;
 import com.domain.risenoveltoonback.model.toonNovel.SetLoveToonNovelDto;
+import com.domain.risenoveltoonback.model.toonNovel.ToonNovelCommentDto;
 import com.domain.risenoveltoonback.model.toonNovel.ToonNovelDto;
 import com.domain.risenoveltoonback.model.toonNovel.ToonNovelEpisodeDto;
 import com.domain.risenoveltoonback.repository.ToonNovelDataRepository;
@@ -94,5 +95,11 @@ public class ToonNovelDataService {
 
         Boolean statBoolean = toonNovelDataMapper.fetchEpisodes(contentId, userId);
         return statBoolean;
+    }
+
+    // 댓글
+    public void commentHandler(ToonNovelCommentDto toonNovelCommentDto) {
+        
+       toonNovelDataMapper.commentHandler(toonNovelCommentDto);
     }
 }

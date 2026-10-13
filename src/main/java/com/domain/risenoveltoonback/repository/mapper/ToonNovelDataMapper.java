@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.domain.risenoveltoonback.model.toonNovel.ToonNovelCommentDto;
 import com.domain.risenoveltoonback.model.toonNovel.ToonNovelDto;
 import com.domain.risenoveltoonback.model.toonNovel.ToonNovelEpisodeDto;
 
@@ -21,4 +22,5 @@ public interface ToonNovelDataMapper {
     List<ToonNovelEpisodeDto> novelToonEpisodesData(@Param("contentId") int contentId, @Param("userId") String userId);
     List <ToonNovelDto> loveContents(String userId);
     Boolean fetchEpisodes(@Param("contentId") int contentId, @Param("userId") String userId);
+    ToonNovelCommentDto commentHandler(ToonNovelCommentDto toonNovelCommentDto);
 }

@@ -7,22 +7,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.domain.risenoveltoonback.common.constants.ErrorCode;
 import com.domain.risenoveltoonback.exception.CustomException;
 import com.domain.risenoveltoonback.model.ApiResponse;
-import com.domain.risenoveltoonback.model.joinLogin.MyPageDataDto;
 import com.domain.risenoveltoonback.model.toonNovel.SetLoveToonNovelDto;
+import com.domain.risenoveltoonback.model.toonNovel.ToonNovelCommentDto;
 import com.domain.risenoveltoonback.model.toonNovel.ToonNovelDto;
 import com.domain.risenoveltoonback.model.toonNovel.ToonNovelEpisodeDto;
 import com.domain.risenoveltoonback.service.ToonNovelDataService;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 
@@ -103,4 +103,20 @@ public class ToonNovelDataController {
 
         return toonNovelDataService.fetchEpisodes(contentId, userId);
     }
+
+    @PostMapping("/commentHandler")
+    public void commentHandler(@RequestParam String replyInputText, int postId, Authentication authentication) {
+        
+        if (authentication == null) {
+            throw new CustomException(ErrorCode.INFO_ERROR);
+        }
+
+        ToonNovelCommentDto toonNovelCommentDto = new ToonNovelCommentDto();
+
+        toonNovelCommentDto.setUserId(authentication.getName());
+        toonNovelCommentDto.setCommentText(replyInputText);
+        toonNovelCommentDto.setContentId(postId);
+        toonNovelDataService.commentHandler(toonNovelCommentDto);
+    }
+    
 }

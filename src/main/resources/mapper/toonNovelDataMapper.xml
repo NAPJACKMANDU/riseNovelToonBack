@@ -117,4 +117,23 @@
       AND user_id = #{userId}
 </select>
 
+<!-- 9. 댓글 등록 -->
+<insert id="commentHandler" parameterType="com.domain.risenoveltoonback.model.toonNovel.ToonNovelCommentDto">
+INSERT INTO comments (
+    episode_id,
+    comment_text,
+    created_at,
+    profile_img,
+    user_id,
+    content_id
+) VALUES (
+    #{episodeId},                -- episode_id (아직 없으니 NULL)
+    #{replyInputText},     -- 댓글 내용 (String으로 받은 값)
+    NOW(),               -- 작성 시각 (현재 시간)
+    #{profileImg},         -- 프로필 이미지 (없으면 NULL)
+    #{userId},             -- 로그인한 사용자 ID
+    #{contentId}          -- 연결된 콘텐츠 ID
+)
+
+</insert>
 </mapper>
