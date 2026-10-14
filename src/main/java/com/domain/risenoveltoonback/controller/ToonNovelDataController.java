@@ -105,7 +105,7 @@ public class ToonNovelDataController {
     }
 
     @PostMapping("/commentHandler")
-    public void commentHandler(@RequestParam String replyInputText, int postId, Authentication authentication) {
+    public void commentHandler(@RequestBody ToonNovelCommentDto commentApiItem, Authentication authentication) {
         
         if (authentication == null) {
             throw new CustomException(ErrorCode.INFO_ERROR);
@@ -114,8 +114,8 @@ public class ToonNovelDataController {
         ToonNovelCommentDto toonNovelCommentDto = new ToonNovelCommentDto();
 
         toonNovelCommentDto.setUserId(authentication.getName());
-        toonNovelCommentDto.setCommentText(replyInputText);
-        toonNovelCommentDto.setContentId(postId);
+        toonNovelCommentDto.setCommentText(commentApiItem.getCommentText());
+        toonNovelCommentDto.setContentId(commentApiItem.getContentId());
         toonNovelDataService.commentHandler(toonNovelCommentDto);
     }
     

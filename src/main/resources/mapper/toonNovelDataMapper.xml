@@ -128,7 +128,7 @@ INSERT INTO comments (
     content_id
 ) VALUES (
     #{episodeId},                -- episode_id (아직 없으니 NULL)
-    #{replyInputText},     -- 댓글 내용 (String으로 받은 값)
+    #{inputText},     -- 댓글 내용 (String으로 받은 값)
     NOW(),               -- 작성 시각 (현재 시간)
     #{profileImg},         -- 프로필 이미지 (없으면 NULL)
     #{userId},             -- 로그인한 사용자 ID
