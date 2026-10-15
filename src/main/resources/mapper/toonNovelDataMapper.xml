@@ -134,6 +134,5 @@ INSERT INTO comments (
     #{userId},             -- 로그인한 사용자 ID
     #{contentId}          -- 연결된 콘텐츠 ID
 )
-
 </insert>
 </mapper>
