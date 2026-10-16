@@ -25,4 +25,7 @@ public class ToonNovelCommentDto {
     private LocalDateTime createdAt;
     private String profileImg;
     private Integer contentId;
+    private Integer parentId;
+    private String nickname;
+    private Integer likeCount;
 }

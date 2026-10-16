@@ -104,6 +104,7 @@ public class ToonNovelDataController {
         return toonNovelDataService.fetchEpisodes(contentId, userId);
     }
 
+    // 댓글 등록
     @PostMapping("/commentHandler")
     public void commentHandler(@RequestBody ToonNovelCommentDto commentApiItem, Authentication authentication) {
         
@@ -116,7 +117,17 @@ public class ToonNovelDataController {
         toonNovelCommentDto.setUserId(authentication.getName());
         toonNovelCommentDto.setCommentText(commentApiItem.getCommentText());
         toonNovelCommentDto.setContentId(commentApiItem.getContentId());
+        
+        if(commentApiItem.getParentId() != null) toonNovelCommentDto.setParentId(commentApiItem.getParentId());
+
         toonNovelDataService.commentHandler(toonNovelCommentDto);
     }
+
+    // 댓글 리스트
+    @GetMapping("/commentList/{contentId}")
+    public List<ToonNovelCommentDto> commentList(@PathVariable("contentId") int contentId) {
+        return toonNovelDataService.commentList(contentId);
+    }
+    
     
 }

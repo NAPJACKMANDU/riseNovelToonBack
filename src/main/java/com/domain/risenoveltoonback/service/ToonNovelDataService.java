@@ -97,9 +97,13 @@ public class ToonNovelDataService {
         return statBoolean;
     }
 
-    // 댓글
+    // 댓글 등록
     public void commentHandler(ToonNovelCommentDto toonNovelCommentDto) {
-        
        toonNovelDataMapper.commentHandler(toonNovelCommentDto);
+    }
+
+    // 댓글 리스트
+    public List<ToonNovelCommentDto> commentList(int contentId){
+        return toonNovelDataMapper.commentList(contentId);
     }
 }

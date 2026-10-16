@@ -119,20 +119,42 @@
 
 <!-- 9. 댓글 등록 -->
 <insert id="commentHandler" parameterType="com.domain.risenoveltoonback.model.toonNovel.ToonNovelCommentDto">
-INSERT INTO comments (
+ INSERT INTO comments (
     episode_id,
     comment_text,
     created_at,
     profile_img,
     user_id,
-    content_id
-) VALUES (
-    #{episodeId},                -- episode_id (아직 없으니 NULL)
-    #{inputText},     -- 댓글 내용 (String으로 받은 값)
-    NOW(),               -- 작성 시각 (현재 시간)
-    #{profileImg},         -- 프로필 이미지 (없으면 NULL)
-    #{userId},             -- 로그인한 사용자 ID
-    #{contentId}          -- 연결된 콘텐츠 ID
-)
+    content_id,
+    parent_id,
+    nickname
+  )
+  SELECT
+    #{episodeId},
+    #{commentText},
+    NOW(),
+    #{profileImg},
+    #{userId},
+    #{contentId},
+    #{parentId},
+    u.nickname
+  FROM users u
+  WHERE u.user_id = #{userId}
 </insert>
+
+<!-- 10. 댓글 리스트--> 
+<select id="commentList" parameterType="int" resultType="com.domain.risenoveltoonback.model.toonNovel.ToonNovelCommentDto">
+SELECT 
+    comment_id AS commentId, 
+    episode_id AS episodeId, 
+    comment_text AS commentText, 
+    created_at AS createdAt, 
+    profile_img AS profileImg, 
+    user_id AS userId, 
+    content_id AS contentId, 
+    parent_id AS parentId,
+    like_count AS likeCount,
+    nickname AS nickname
+FROM comments
+</select>
 </mapper>
