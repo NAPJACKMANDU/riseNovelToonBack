@@ -87,7 +87,6 @@ public class ToonNovelDataService {
         
         List<ToonNovelDto> toonNovelDto = toonNovelDataMapper.loveContents(userId);
         return ResponseEntity.ok(ApiResponse.success(toonNovelDto));
-    
     }
 
     // 하트 실시간 조회
@@ -106,4 +105,11 @@ public class ToonNovelDataService {
     public List<ToonNovelCommentDto> commentList(int contentId){
         return toonNovelDataMapper.commentList(contentId);
     }
+
+    // 댓글 삭제
+    public void deleteComment(int commentId) {
+        toonNovelDataMapper.deleteComment(commentId);
+        
+    }
+
 }

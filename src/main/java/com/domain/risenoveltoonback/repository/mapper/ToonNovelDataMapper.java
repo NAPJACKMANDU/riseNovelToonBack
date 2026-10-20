@@ -24,4 +24,5 @@ public interface ToonNovelDataMapper {
     Boolean fetchEpisodes(@Param("contentId") int contentId, @Param("userId") String userId);
     int commentHandler(ToonNovelCommentDto toonNovelCommentDto);
     List<ToonNovelCommentDto> commentList(int contentId);
+    void deleteComment(@Param("commentId") int commentId);
 }

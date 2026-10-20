@@ -119,7 +119,7 @@ public class ToonNovelDataController {
         toonNovelCommentDto.setContentId(commentApiItem.getContentId());
         
         if(commentApiItem.getParentId() != null) toonNovelCommentDto.setParentId(commentApiItem.getParentId());
-
+        
         toonNovelDataService.commentHandler(toonNovelCommentDto);
     }
 
@@ -128,6 +128,12 @@ public class ToonNovelDataController {
     public List<ToonNovelCommentDto> commentList(@PathVariable("contentId") int contentId) {
         return toonNovelDataService.commentList(contentId);
     }
-    
+
+    // 댓글 삭제
+    @PostMapping("/deleteComment")
+    public void deleteComment(@RequestParam int commentId) {
+        System.out.println(commentId);
+        toonNovelDataService.deleteComment(commentId);
+    }
     
 }

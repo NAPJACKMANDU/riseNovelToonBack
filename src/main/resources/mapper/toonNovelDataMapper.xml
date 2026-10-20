@@ -157,4 +157,11 @@ SELECT
     nickname AS nickname
 FROM comments
 </select>
+
+<!-- 11. 댓글 지우기 -->
+<delete id="deleteComment" parameterType="map">
+DELETE 
+FROM comments
+WHERE comment_id = #{commentId}
+</delete>
 </mapper>
